@@ -1,5 +1,5 @@
 let nombreAleatoire;
-let mot = '';
+let motAleatoire = '';
 // Étape 4 : Logique du jeu en JavaScript
 
 // Créez une liste de mots à deviner dans votre script.
@@ -59,11 +59,17 @@ let tableauDeMots = [
 // Choisir un mot aléatoire dans la liste
 function genererMot(max) {
     nombreAleatoire = Math.floor(Math.random() * max); // Génère un index aléatoire
-    mot = tableauDeMots[nombreAleatoire]; // Sélectionne le mot correspondant à l'index
-    return mot;
+    motAleatoire = tableauDeMots[nombreAleatoire]; // Sélectionne le mot correspondant à l'index
+    return motAleatoire;
 }
 console.log(genererMot(tableauDeMots.length));
 
+// Générer le nombre de tirets correspondant au nombre de lettre
+let tirets = document.querySelector('.tirets');
+
+for(let i = 0; i < motAleatoire.length;i++){
+ document.querySelector('.tirets').append(' _ ');
+}
 
 // Écrivez une fonction pour initialiser une nouvelle partie (réinitialisation des variables, affichage initial, etc.).
 // Écrivez une fonction pour gérer le clic sur une lettre du clavier virtuel et vérifier si la lettre est correcte.
