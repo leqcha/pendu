@@ -56,7 +56,6 @@ button{
 .colonneGauche,
 .colonneDroite {
     width: 50%;
-    /* border: 1px solid black; */
     min-height: 75vh;
     display: flex;
     flex-direction: column;
@@ -74,7 +73,8 @@ tr{
 }
 
 td{
-    border: 1px solid black;
+    border: 1px solid white;
+    border-radius: 5px;
     padding: 5px;
     margin: 5px;
     width: 50px;
