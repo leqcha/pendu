@@ -1,3 +1,11 @@
+const tableauDeMots = [
+    "chien", "chat", "table", "ordinateur", "maison", "voiture", "fenetre", "porte", "fleur", "arbre",
+    "soleil", "lune", "étoile", "plage", "mer", "montagne", "riviere", "pont", "nuage", "herbe",
+    "cafe", "livre", "stylo", "papier", "musique", "film", "fenetre", "velo", "ballon", "portable",
+    "ordinateur", "ecran", "clavier", "souris", "ecouteurs", "casque", "telecommande", "pizza", "hamburger", "sandwich",
+    "chocolat", "gateau", "bonbon", "glace", "soda", "eau", "jus", "orange", "pomme"
+];
+
 let motAleatoire = '';
 let tirets = [];
 let motADeviner = [];
@@ -5,20 +13,13 @@ let coups = 7;
 let numeroImage = 0;
 let lettre = '';
 
+let mot = document.querySelector('#mot');
+let formulaire = document.querySelector('.formulaire');
 let score = document.querySelector('.score');
 let image = document.querySelector('img');
-
-// Liste de mots
-let tableauDeMots = [
-    "chien", "chat", "table", "ordinateur", "maison", "voiture", "fenetre", "porte", "fleur", "arbre",
-    "soleil", "lune", "étoile", "plage", "mer", "montagne", "riviere", "pont", "nuage", "herbe",
-    "cafe", "livre", "stylo", "papier", "musique", "film", "fenetre", "vélo", "ballon", "portable",
-    "ordinateur", "ecran", "clavier", "souris", "ecouteurs", "casque", "telecommande", "pizza", "hamburger", "sandwich",
-    "chocolat", "gateau", "bonbon", "glace", "soda", "eau", "jus", "orange", "pomme"
-];
+let nouvellePartieBtn = document.querySelector('.nouvellePartie');
 
 // Générer une nouvelle partie au clic sur le bouton nouvelle partie
-let nouvellePartieBtn = document.querySelector('.nouvellePartie');
 nouvellePartieBtn.addEventListener('click', nouvellePartie);
 
 function nouvellePartie() {
@@ -37,7 +38,7 @@ function nouvellePartie() {
     genererTirets();
 }
 
-function copieMotAleatoire(){
+function copieMotAleatoire() {
     motADeviner = motAleatoire.split('');
     console.log(motADeviner);
 }
@@ -87,7 +88,7 @@ function verifierLettre(lettre) {
                 nouvellePartie();
             }
         }
-        
+
     }
 
     document.querySelector('.tirets').textContent = tirets.join(' '); // Mettre à jour l'affichage des tirets
@@ -97,9 +98,43 @@ function verifierLettre(lettre) {
         coups--;
         score.textContent = coups;
         image.src = `images/${++numeroImage}.png`;
+
+        // Si le nombre de vies atteint 0, arrêter le jeu et proposer de relancer une partie
+        if (coups < 0) {
+            alert('Vous avez perdu! Il fallait deviner le mot : ' + motAleatoire);
+            nouvellePartie();
+        }
     } else {
         console.log('la lettre est dans le mot');
     }
 }
 
 nouvellePartie();
+
+// on crée une fonction qui supprime les accents de l'input
+function supprimerAccents(input) {
+    return input.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+}
+
+formulaire.addEventListener('submit', function (e) {
+    e.preventDefault(); // Empêcher le rechargement de la page
+
+    // On supprime les accents de l'entrée de l'utilisateur sinon le mot sera faux
+    let motSansAccents = supprimerAccents(mot.value);
+
+    if (motSansAccents === motADeviner.join('')) {
+        alert('Bravo! Vous avez deviné le mot ' + motAleatoire);
+        nouvellePartie();
+    } else if (coups === 0) {
+        alert('Vous avez perdu! Il fallait deviner le mot : ' + motAleatoire);
+        nouvellePartie();
+    } else {
+        alert('Désolé, ce n\'est pas le bon mot. Vous perdez une vie');
+        coups--;
+        image.src = `images/${++numeroImage}.png`;
+        score.textContent = coups;
+    }
+
+    // Réinitialisation du champ de saisie
+    mot.value = '';
+});
