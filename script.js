@@ -17,14 +17,6 @@ let tableauDeMots = [
     "chocolat", "gateau", "bonbon", "glace", "soda", "eau", "jus", "orange", "pomme"
 ];
 
-// Suppression des accents et des majuscules
-// function supprimerAccents(str) {
-//     return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-// }
-// let tableauDeMotsSansAccents = tableauDeMots.map(mot => supprimerAccents(mot.toLowerCase()));
-// console.log(tableauDeMotsSansAccents);
-
-
 // Générer une nouvelle partie au clic sur le bouton nouvelle partie
 let nouvellePartieBtn = document.querySelector('.nouvellePartie');
 nouvellePartieBtn.addEventListener('click', nouvellePartie);
@@ -53,8 +45,9 @@ function copieMotAleatoire(){
 // Générer des tirets pour le tableau copieMotAleatoire
 function genererTirets() {
     for (let i = 0; i < motAleatoire.length; i++) {
-        tirets = document.querySelector('.tirets').append(' _ ');
+        tirets[i] = '_';
     }
+    document.querySelector('.tirets').textContent = tirets.join(' ');
 }
 
 
@@ -86,22 +79,27 @@ function verifierLettre(lettre) {
     for (let i = 0; i < motADeviner.length; i++) {
         if (motADeviner[i] === lettre) {
             lettreTrouvee = true;
+
+            tirets[i] = lettre; // Remplacer le tiret par la lettre
+
+            if (tirets.join('') === motAleatoire) {
+                alert('Vous avez trouvez le mot ' + motAleatoire + '!');
+                nouvellePartie();
+            }
         }
+        
     }
 
-    if (lettreTrouvee) {
-        console.log('la lettre est dans le mot');
-        score.textContent = coups;
-    } else if (coups === 0 || coups < 0) {
-        alert('perdu');
-        image.src = 'images/7.png';
-    } else {
+    document.querySelector('.tirets').textContent = tirets.join(' '); // Mettre à jour l'affichage des tirets
+
+    if (!lettreTrouvee) {
         console.log('la lettre n\'est pas dans le mot');
         coups--;
         score.textContent = coups;
         image.src = `images/${++numeroImage}.png`;
+    } else {
+        console.log('la lettre est dans le mot');
     }
-
 }
 
 nouvellePartie();
