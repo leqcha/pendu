@@ -26,11 +26,23 @@ main{
     font-weight: bold;
     color: white;
 }
+
 footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
     color: white;
     font-family: Arial, Helvetica, sans-serif;
     text-align: center;
 }
+
+footer img {
+    margin-left: 10px;
+    width: 130px;
+    height: 70px;
+}
+
 
 main {
     flex-grow: 1;
@@ -87,6 +99,11 @@ td{
     margin: 5px;
     width: 50px;
     font-size: 40px;
+}
+
+td:hover{
+    background-color: white;
+    color: black;
 }
 
 .formulaire{

@@ -33,14 +33,12 @@ function nouvellePartie() {
     motADeviner = [];
 
     motADeviner = genererMot(tableauDeMots.length);
-    console.log(motADeviner);
     copieMotAleatoire();
     genererTirets();
 }
 
 function copieMotAleatoire() {
     motADeviner = motAleatoire.split('');
-    console.log(motADeviner);
 }
 
 // Générer des tirets pour le tableau copieMotAleatoire
@@ -69,7 +67,6 @@ let lettreElements = document.querySelectorAll('td');
 lettreElements.forEach(function (e) {
     e.addEventListener('click', function () {
         lettre = e.textContent;
-        console.log(lettre);
         verifierLettre(lettre);
     });
 });
@@ -81,7 +78,7 @@ function verifierLettre(lettre) {
         if (motADeviner[i] === lettre) {
             lettreTrouvee = true;
 
-            tirets[i] = lettre; // Remplacer le tiret par la lettre
+            tirets[i] = lettre; // Remplace le tiret par la lettre
 
             if (tirets.join('') === motAleatoire) {
                 alert('Vous avez trouvez le mot ' + motAleatoire + '!');
@@ -91,21 +88,17 @@ function verifierLettre(lettre) {
 
     }
 
-    document.querySelector('.tirets').textContent = tirets.join(' '); // Mettre à jour l'affichage des tirets
+    document.querySelector('.tirets').textContent = tirets.join(' '); // Mise à jour de l'affichage des tirets
 
     if (!lettreTrouvee) {
-        console.log('la lettre n\'est pas dans le mot');
         coups--;
         score.textContent = coups;
         image.src = `images/${++numeroImage}.png`;
 
-        // Si le nombre de vies atteint 0, arrêter le jeu et proposer de relancer une partie
         if (coups < 0) {
             alert('Vous avez perdu! Il fallait deviner le mot : ' + motAleatoire);
             nouvellePartie();
         }
-    } else {
-        console.log('la lettre est dans le mot');
     }
 }
 
@@ -117,7 +110,7 @@ function supprimerAccents(input) {
 }
 
 formulaire.addEventListener('submit', function (e) {
-    e.preventDefault(); // Empêcher le rechargement de la page
+    e.preventDefault(); // Empêcher le rechargement de la page au clic sinon une nouvelle partie est lancée
 
     // On supprime les accents de l'entrée de l'utilisateur sinon le mot sera faux
     let motSansAccents = supprimerAccents(mot.value);
